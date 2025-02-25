@@ -1,3 +1,3 @@
 # training_uccello
 
-THis is a training repository to learn more about git
+This is a training repository to learn more about git.
