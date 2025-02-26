@@ -1,6 +1,15 @@
 ---
-title: "index"
+title: "Course Outline"
 format: html
 ---
 
-Hello world
+## Course Lessons
+
+- [Intro to quarto](scripts/Intro-quarto.html)
+- Intro to git and Github
+- Cleaning and wrangling data
+
+## Practice sessions
+
+- Practice I
+- Practice II
