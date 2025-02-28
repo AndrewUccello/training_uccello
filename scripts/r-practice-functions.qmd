@@ -1,0 +1,57 @@
+---
+title: "R Practice: Functions"
+format: html
+editor: visual
+---
+
+```{r}
+library(rvest)
+library(readr)
+library(dplyr)
+library(janitor)
+```
+```{r}
+webpage <- rvest::read_html("https://www.pwrc.usgs.gov/BBL/Bander_Portal/login/speclist.php")
+
+tbls <- rvest::html_nodes(webpage, "table") %>% 
+    rvest::html_table(fill = TRUE)
+
+species <- tbls[[1]] %>% 
+    janitor::clean_names() %>% 
+    select(alpha_code, common_name) %>% 
+    mutate(alpha_code = tolower(alpha_code))
+
+head(species, 3)
+```
+## Read in surveys
+```{r}
+library(here)
+predator_survey <- read_csv(here::here("data/Utqiagvik_predator_surveys.csv"))
+nest_data <-read_csv(here::here("data/Utqiagvik_nest_data.csv"))
+egg_measures <- read_csv(here::here("data/Utqiagvik_egg_measurements.csv"))
+```
+##Joining tables
+```{r}
+
+pred_comm_names <- predator_survey %>% 
+  left_join(species, by = c("species" = "alpha_code"))
+
+```
+##writing a function
+```{r}
+##<function_name> <- function(<argument1>, <argument2>, ...) {
+  #<whatever code your function needs to run>
+ # return(<something>)
+#}
+
+comm_names <- function(df1, species) {
+  return_df <- df1 %>% 
+  left_join(species, by = c("species" = "alpha_code"))
+  return(return_df)
+}
+
+# testing my function
+comm_names(egg_measures, species)
+comm_names(nest_data, species)
+```
+
